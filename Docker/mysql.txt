@@ -1,0 +1,23 @@
+$ sudo docker build -f mysql.dockerfile -t udemy-aws-spring-kotlin/mysql-image .
+$ sudo docker run --name udemy-aws-spring-kotlin-container -p 3306:3306 -d udemy-aws-spring-kotlin/mysql-image
+$ sudo docker exec -it udemy-aws-spring-kotlin-container bash
+
+if(dump)
+    $ cat dump.sql | docker exec -i udemy-aws-spring-kotlin-container /usr/bin/mysql -u root --password=admin123 my_database;
+
+if(passaword)
+    $ mysql -u root -p
+    $ admin123
+else
+    $ mysql -u root
+
+if(make_backup)
+    $ docker exec udemy-aws-spring-kotlin-container /usr/bin/mysqldump -u root --password=admin123 my_database > ./backup.sql
+
+
+[   remover container e imagens docker  ]
+
+docker stop udemy-aws-spring-kotlin-container &&
+docker rm udemy-aws-spring-kotlin-container &&
+docker rmi udemy-aws-spring-kotlin/mysql-image -f
+
