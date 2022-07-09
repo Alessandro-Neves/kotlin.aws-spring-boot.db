@@ -1,4 +1,4 @@
-package com.ale.awsspringdocker
+package com.ale.awsspringdocker.greeting
 
 class Greeting (
     val id: Long,

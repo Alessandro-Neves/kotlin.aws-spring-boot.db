@@ -1,5 +1,6 @@
-package com.ale.awsspringdocker
+package com.ale.awsspringdocker.greeting
 
+import com.ale.awsspringdocker.greeting.Greeting
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
