@@ -1,6 +1,6 @@
 package com.ale.awsspringdocker.controllers
 
-import com.ale.awsspringdocker.models.Person
+import com.ale.awsspringdocker.dtos.v1.PersonDTO
 import com.ale.awsspringdocker.services.PersonService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.NO_CONTENT
@@ -14,25 +14,25 @@ class PersonController {
     private lateinit var personService: PersonService
 
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun findAll(): List<Person> {
+    fun findAll(): List<PersonDTO> {
         return personService.findAll()
     }
 
     @GetMapping(value = ["/{id}"],
                 produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun findById(@PathVariable(value = "id") id: Long): Person {
+    fun findById(@PathVariable(value = "id") id: Long): PersonDTO {
         return personService.findById(id)
     }
 
     @PostMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun create(@RequestBody person: Person): Person {
-        return personService.create(person)
+    fun create(@RequestBody dto: PersonDTO): PersonDTO {
+        return personService.create(dto)
     }
 
     @PutMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],
                 produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun update(@RequestBody person: Person): Person {
-        return personService.update(person)
+    fun update(@RequestBody dto: PersonDTO): PersonDTO {
+        return personService.update(dto)
     }
 
     @DeleteMapping( value = ["/{id}"],
