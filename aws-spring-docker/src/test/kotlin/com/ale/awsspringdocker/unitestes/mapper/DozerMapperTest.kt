@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import com.ale.awsspringdocker.dtos.v1.PersonDTO
 import com.ale.awsspringdocker.mapper.DozerMapper
-import com.ale.awsspringdocker.models.Person
+import com.ale.awsspringdocker.models.v1.Person
 import com.ale.awsspringdocker.unitestes.mapper.mocks.MockPerson
 
 class DozerMapperTest {

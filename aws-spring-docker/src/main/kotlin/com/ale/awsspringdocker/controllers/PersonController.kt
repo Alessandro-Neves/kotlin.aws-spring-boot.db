@@ -1,6 +1,7 @@
 package com.ale.awsspringdocker.controllers
 
 import com.ale.awsspringdocker.dtos.v1.PersonDTO
+import com.ale.awsspringdocker.dtos.v2.PersonDTO as PersonDTOv2
 import com.ale.awsspringdocker.services.PersonService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.NO_CONTENT
@@ -24,9 +25,17 @@ class PersonController {
         return personService.findById(id)
     }
 
-    @PostMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping(   consumes = [MediaType.APPLICATION_JSON_VALUE],
+                    produces = [MediaType.APPLICATION_JSON_VALUE])
     fun create(@RequestBody dto: PersonDTO): PersonDTO {
         return personService.create(dto)
+    }
+
+    @PostMapping(   value = ["/v2"],
+                    consumes = [MediaType.APPLICATION_JSON_VALUE],
+                    produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun createV2(@RequestBody dto: PersonDTOv2): PersonDTOv2 {
+        return personService.createV2(dto)
     }
 
     @PutMapping(consumes = [MediaType.APPLICATION_JSON_VALUE],

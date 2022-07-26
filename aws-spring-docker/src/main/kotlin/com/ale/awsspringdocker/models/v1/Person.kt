@@ -1,4 +1,4 @@
-package com.ale.awsspringdocker.models
+package com.ale.awsspringdocker.models.v1
 
 import jakarta.persistence.*
 
@@ -7,7 +7,8 @@ import jakarta.persistence.*
 */
 @Entity
 @Table(name = "person_table")
-data class Person(
+data class
+Person(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0,

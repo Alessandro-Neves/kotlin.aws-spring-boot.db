@@ -1,9 +1,11 @@
 package com.ale.awsspringdocker.services
 
 import com.ale.awsspringdocker.dtos.v1.PersonDTO
+import com.ale.awsspringdocker.dtos.v2.PersonDTO as PersonDTOv2
 import com.ale.awsspringdocker.exceptions.ResourceNotFoundException
 import com.ale.awsspringdocker.mapper.DozerMapper
-import com.ale.awsspringdocker.models.Person
+import com.ale.awsspringdocker.mapper.custom.PersonMapper
+import com.ale.awsspringdocker.models.v1.Person
 import com.ale.awsspringdocker.repositories.PersonRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -13,6 +15,9 @@ import java.util.logging.Logger
 class PersonService {
     @Autowired
     private lateinit var repository: PersonRepository
+
+    @Autowired
+    private lateinit var mapper: PersonMapper
 
     private val logger = Logger.getLogger(PersonService::class.java.name)
 
@@ -37,6 +42,17 @@ class PersonService {
 
         return DozerMapper.parseObject(entity, PersonDTO::class.java)
     }
+
+    fun createV2(dto: PersonDTOv2): PersonDTOv2 {
+        logger.info("Creating one person with name ${dto.firstName}!")
+        // val person = DozerMapper.parseObject(dto, Person::class.java)
+        val person = mapper.mapDTOtoEntity(dto)
+        val entity = repository.save(person)
+
+        //return DozerMapper.parseObject(entity, PersonDTOv2::class.java)
+        return mapper.mapEntityToDTO(entity)
+    }
+
     fun update(dto: PersonDTO): PersonDTO {
         logger.info("Updating one person with name ${dto.firstName}!")
         val person = DozerMapper.parseObject(dto, Person::class.java)

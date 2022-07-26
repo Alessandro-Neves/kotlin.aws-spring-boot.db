@@ -1,0 +1,6 @@
+[BUILD APPLICATION ON TERMINAL]
+    $ mvn clean package spring-boot:run -DskipTests
+        -DskipTests: pula os testes (usar somente em dev)
+
+[RUN MIGRATE WITH FLYWAY PLUGIN]
+    $ mvn flyway:migrate
