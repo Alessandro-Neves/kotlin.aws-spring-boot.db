@@ -3,7 +3,7 @@ package com.ale.awsspringdocker.unitestes.mapper.mocks
 
 import java.util.ArrayList
 import com.ale.awsspringdocker.dtos.v1.PersonDTO
-import com.ale.awsspringdocker.models.Person
+import com.ale.awsspringdocker.models.v1.Person
 
 class MockPerson {
     fun mockEntity(): Person {
