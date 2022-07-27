@@ -1,5 +1,6 @@
 package com.ale.awsspringdocker.services
 
+import com.ale.awsspringdocker.controllers.PersonController
 import com.ale.awsspringdocker.dtos.v1.PersonDTO
 import com.ale.awsspringdocker.dtos.v2.PersonDTO as PersonDTOv2
 import com.ale.awsspringdocker.exceptions.ResourceNotFoundException
@@ -8,6 +9,7 @@ import com.ale.awsspringdocker.mapper.custom.PersonMapper
 import com.ale.awsspringdocker.models.v1.Person
 import com.ale.awsspringdocker.repositories.PersonRepository
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Service
 import java.util.logging.Logger
 
@@ -26,13 +28,27 @@ class PersonService {
         val person = repository.findById(id)
             .orElseThrow { ResourceNotFoundException("No records found for this id!") }
 
-        return DozerMapper.parseObject(person, PersonDTO::class.java)
+        val personDTO = DozerMapper.parseObject(person, PersonDTO::class.java)
+
+        // Adding HATEOAS link at dto
+        val withSelfRel = linkTo(PersonController::class.java).slash(personDTO.key).withSelfRel()
+        personDTO.add(withSelfRel)
+
+        return personDTO
     }
 
     fun findAll(): List<PersonDTO> {
         logger.info("Finding all people!")
         val persons = repository.findAll()
-        return DozerMapper.parseListObjects(persons, PersonDTO::class.java)
+        val personDTOs = DozerMapper.parseListObjects(persons, PersonDTO::class.java)
+
+        // Adding HATEHOAS at personDTOs
+        for(personDTO in personDTOs){
+            val withSelfRel = linkTo(PersonController::class.java).slash(personDTO.key).withSelfRel()
+            personDTO.add(withSelfRel)
+        }
+
+        return personDTOs
     }
 
     fun create(dto: PersonDTO): PersonDTO {
@@ -40,7 +56,13 @@ class PersonService {
         val person = DozerMapper.parseObject(dto, Person::class.java)
         val entity = repository.save(person)
 
-        return DozerMapper.parseObject(entity, PersonDTO::class.java)
+        val personDTO = DozerMapper.parseObject(entity, PersonDTO::class.java)
+
+        // Adding HATEOAS link at dto
+        val withSelfRel = linkTo(PersonController::class.java).slash(personDTO.key).withSelfRel()
+        personDTO.add(withSelfRel)
+
+        return personDTO
     }
 
     fun createV2(dto: PersonDTOv2): PersonDTOv2 {
@@ -66,7 +88,14 @@ class PersonService {
 
         val entityResponse = repository.save(entity)
 
-        return DozerMapper.parseObject(entityResponse, PersonDTO::class.java)
+        val personDTO = DozerMapper.parseObject(entityResponse, PersonDTO::class.java)
+
+        // Adding HATEOAS link at dto
+        val withSelfRel = linkTo(PersonController::class.java).slash(personDTO.key).withSelfRel()
+        personDTO.add(withSelfRel)
+
+        return personDTO
+
     }
     fun delete(id: Long){
         logger.info("Deleting one person with id ${id}!")
