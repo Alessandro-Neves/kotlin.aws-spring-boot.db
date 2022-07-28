@@ -40,7 +40,5 @@ $ sudo docker build -f mysql.dockerfile -t udemy-aws-spring-kotlin/mysql-image .
 $ sudo docker run --name udemy-aws-spring-kotlin-container-8.0 -p 3306:3306 -d udemy-aws-spring-kotlin/mysql8.0-image
 $ sudo docker exec -it udemy-aws-spring-kotlin-container-8.0 bash
 
-$ sudo docker start udemy-aws-spring-kotlin-container-8.0
-
     [EXPORT DUMP]
     $ docker exec udemy-aws-spring-kotlin-container-8.0 /usr/bin/mysqldump -u root --password=admin123 rest_spg_db > ./backup.sql

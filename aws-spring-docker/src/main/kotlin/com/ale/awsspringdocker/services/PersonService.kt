@@ -2,7 +2,6 @@ package com.ale.awsspringdocker.services
 
 import com.ale.awsspringdocker.controllers.PersonController
 import com.ale.awsspringdocker.dtos.v1.PersonDTO
-import com.ale.awsspringdocker.exceptions.RequiredObjectIsNullException
 import com.ale.awsspringdocker.dtos.v2.PersonDTO as PersonDTOv2
 import com.ale.awsspringdocker.exceptions.ResourceNotFoundException
 import com.ale.awsspringdocker.mapper.DozerMapper
@@ -52,11 +51,8 @@ class PersonService {
         return personDTOs
     }
 
-    fun create(dto: PersonDTO?): PersonDTO {
-        if(dto == null) throw RequiredObjectIsNullException()
-
+    fun create(dto: PersonDTO): PersonDTO {
         logger.info("Creating one person with name ${dto.firstName}!")
-
         val person = DozerMapper.parseObject(dto, Person::class.java)
         val entity = repository.save(person)
 
@@ -79,9 +75,7 @@ class PersonService {
         return mapper.mapEntityToDTO(entity)
     }
 
-    fun update(dto: PersonDTO?): PersonDTO {
-        if(dto == null) throw RequiredObjectIsNullException()
-
+    fun update(dto: PersonDTO): PersonDTO {
         logger.info("Updating one person with name ${dto.firstName}!")
         val person = DozerMapper.parseObject(dto, Person::class.java)
         val entity = repository.findById(person.id)
