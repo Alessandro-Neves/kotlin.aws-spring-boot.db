@@ -1,6 +1,7 @@
 package com.ale.awsspringdocker.exceptions.handlers
 
 import com.ale.awsspringdocker.exceptions.ExceptionResponse
+import com.ale.awsspringdocker.exceptions.RequiredObjectIsNullException
 import com.ale.awsspringdocker.exceptions.ResourceNotFoundException
 import com.ale.awsspringdocker.exceptions.UnsupportedMathOperationException
 import org.springframework.http.HttpStatus
@@ -28,7 +29,7 @@ class CustomizedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
     }
 
     @ExceptionHandler(UnsupportedMathOperationException::class)
-    fun handleBadRequestExceptions(ex: java.lang.Exception, request: WebRequest): ResponseEntity<ExceptionResponse> {
+    fun handleUnsupportedMathOperationExceptions(ex: java.lang.Exception, request: WebRequest): ResponseEntity<ExceptionResponse> {
         val exceptionResponse = ExceptionResponse(
             Date(),
             ex.message,
@@ -47,5 +48,16 @@ class CustomizedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
         );
 
         return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(RequiredObjectIsNullException::class)
+    fun handleBadRequestException(ex: Exception, request: WebRequest): ResponseEntity<ExceptionResponse> {
+        val exceptionResponse = ExceptionResponse(
+            Date(),
+            ex.message,
+            request.getDescription(false)
+        );
+
+        return ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST)
     }
 }
