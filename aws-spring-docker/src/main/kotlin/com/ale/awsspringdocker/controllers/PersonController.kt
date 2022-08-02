@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
+@CrossOrigin(origins = ["http://localhost:8080", "http://localhost:8088","http://awsspringdocker.com.br"])
 @RestController
 @RequestMapping("/person")
 class PersonController {

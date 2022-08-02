@@ -1,4 +1,5 @@
-
+cors:
+  originPatterns: https://awsspringdocker.com.br,http://localhost:8080,http://localhost:3000
 spring:
   datasource:
     drive-class-name: com.mysql.cj.jdbc.Driver
